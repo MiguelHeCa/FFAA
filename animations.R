@@ -7,7 +7,7 @@ library(ggbeeswarm)
 
 # Cargar datos ------------------------------------------------------------
 
-miil_exp <- read_csv("data/military_expend.csv")
+mil_exp <- read_csv("data/military_expend.csv")
 
 # Animación ---------------------------------------------------------------
 
