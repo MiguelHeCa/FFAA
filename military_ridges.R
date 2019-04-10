@@ -1,3 +1,8 @@
+# Military densities
+
+
+# Paquetes ----------------------------------------------------------------
+
 library(tidyverse)
 library(ggridges)
 library(scales)
@@ -31,6 +36,9 @@ mili_exp %>%
   theme_light() +
   theme(panel.grid.major.x = element_blank())
 
+
+# Without the maximum value -----------------------------------------------
+
 mili_exp %>%
   filter(!country == "Kuwait") %>%
   ggplot(aes(x = expenditure, y = year, group = year, fill = 0.5 - abs(0.5 - ..ecdf..))) +
@@ -56,6 +64,9 @@ mili_exp %>%
        caption = "Source: World Bank") +
   theme_light() +
   theme(panel.grid.major.x = element_blank())
+
+
+# Without outliers --------------------------------------------------------
 
 countries_ols <- mili_exp %>% 
   filter((abs(expenditure - median(expenditure)) > 3*sd(expenditure))) %>% 
@@ -89,30 +100,3 @@ mili_exp_without_ols  %>%
        caption = "Source: World Bank") +
   theme_light() +
   theme(panel.grid.major.x = element_blank())
-
-
-
-
-
-countries_ols <- mili_exp %>% 
-  filter((abs(expenditure - median(expenditure)) > 3*sd(expenditure))) %>% 
-  select(country) %>% 
-  unique()
-
-mili_exp_without_ols <- mili_exp %>% 
-  filter(!country %in% as.vector(countries_ols$country))
-
-mili_exp_without_ols  %>% 
-  ggplot(aes(x = expenditure, y = year, group = year)) +
-  geom_density_ridges(scale = 1, size = 0.25, rel_min_height = 0.03) +
-  scale_y_discrete(expand = c(0.01, 0)) +
-  scale_y_reverse(breaks = seq(from = 1975, to = 2017, by = 2),
-                  expand = c(0.01, 0))
-
-mili_exp %>% 
-  filter(!country == "Kuwait") %>% 
-  ggplot(aes(x = expenditure, y = year, group = year)) +
-  geom_density_ridges(scale = 1, size = 0.25, rel_min_height = 0.01) +
-  scale_y_discrete(expand = c(0.01, 0)) +
-  scale_y_reverse(breaks = seq(from = 1975, to = 2017, by = 2),
-                  expand = c(0.01, 0))
