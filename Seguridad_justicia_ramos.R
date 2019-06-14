@@ -31,3 +31,10 @@ seg_just %>%
   group_by(CICLO) %>% 
   summarise(`Porcentaje del PIB` = sum(RATIO_PIB, na.rm = T)) %>% 
   print(n = Inf)
+
+quartz()
+seg_just %>% 
+  group_by(CICLO) %>% 
+  summarise(`Porcentaje del PIB` = sum(RATIO_PIB, na.rm = T)) %>% 
+  ggplot(aes(x = CICLO, y = `Porcentaje del PIB`)) +
+  geom_line()
